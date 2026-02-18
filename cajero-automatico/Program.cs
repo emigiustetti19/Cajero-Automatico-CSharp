@@ -1,7 +1,39 @@
 ﻿class CajeroAutomatico
 {
     double saldo = 10000;
+    string usuarioCorrecto = "Emiliano";
+    string pinCorrecto = "1234";
+    int intentos = 0;
+    bool logueado = false;
 
+    void Login()
+    {
+        Console.WriteLine("===BIENVENIDO AL CAJERO AUTOMÁTICO===");
+        while (!logueado && intentos < 3)
+        {
+            Console.Write("Ingresar usuario: ");
+            string usuarioIngresado = Console.ReadLine();
+            Console.Write("Ingresar PIN: ");
+            string pinIngresado = Console.ReadLine();
+
+            if (usuarioIngresado == usuarioCorrecto && pinIngresado == pinCorrecto)
+            {
+                logueado = true;
+                Console.WriteLine("Login exitoso. Presione Enter para continuar...");
+                Console.ReadKey();
+            }
+            else
+            {
+                intentos++;
+                Console.WriteLine($"Login fallido. Intentos restantes: {3 - intentos}");
+            }
+        }
+        if (!logueado)
+        {
+            Console.WriteLine("Demasiados intentos fallidos. El programa se cerrará.");
+            Environment.Exit(0);
+        }
+    }
     void Menu()
     {
         string opcion;
@@ -116,6 +148,7 @@ Gracias por usar el cajero automático. ¡Hasta luego!
     static void Main(string[] args)
     {
         CajeroAutomatico cajero = new CajeroAutomatico();
+        cajero.Login();
         cajero.Menu();
     }
 }
