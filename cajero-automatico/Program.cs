@@ -69,13 +69,34 @@
                     break;
             }
 
+            Console.WriteLine("Desea realizar otra operación? (1=SI / 2=NO)");
+            string respuesta = Console.ReadLine();
+            int numRespuesta;
+            while (true)
+                if (int.TryParse(respuesta, out numRespuesta))
+                {
+                    if (numRespuesta == 1)
+                        break;
+                    else if (numRespuesta == 2)
+                        Salir();
+                    else
+                    {
+                        Console.WriteLine("Opción no válida. Ingrese 1 para SI o 2 para NO.");
+                        respuesta = Console.ReadLine();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Entrada no válida. Ingrese un número.");
+                    respuesta = Console.ReadLine();
+                }
+
         } while (opcion != "4");
     }
     void ConsultarSaldo()
     {
         Console.Clear();
         Console.WriteLine($"Su saldo actual es: ${saldo}");
-        OtraOperacion();
     }
 
     void Depositar()
@@ -90,12 +111,13 @@
                 if (monto <= 0)
                 {
                     Console.WriteLine("El monto debe ser mayor a cero.");
+                    break;
                 }
                 else
                 {
                     saldo += monto;
                     Console.WriteLine($"Depósito exitoso. Su nuevo saldo es: ${saldo}");
-                    OtraOperacion();
+                    break;
                 }
             }
             else
@@ -117,18 +139,18 @@
                 if (retiro > saldo)
                 {
                     Console.WriteLine("Fondos insuficientes.");
-                    OtraOperacion();
+                    break;
                 }
                 else if (retiro <= 0)
                 {
                     Console.WriteLine("El monto debe ser mayor a cero.");
-                    OtraOperacion();
+                    break;
                 }
                 else
                 {
                     saldo -= retiro;
                     Console.WriteLine($"Retiro exitoso. Su nuevo saldo es: ${saldo}");
-                    OtraOperacion();
+                    break;
                 }
             }
             else
@@ -145,33 +167,6 @@ Gracias por usar el cajero automático. ¡Hasta luego!
 ====================================================");
         Environment.Exit(0);
     }
-
-    void OtraOperacion()
-    {
-        Console.WriteLine("\nDesea realizar otra operación? (1=SI / 2=NO)");
-        string respuesta = Console.ReadLine();
-        int numRespuesta;
-        while (true)
-            if (int.TryParse(respuesta, out numRespuesta))
-            {
-                if (numRespuesta == 1)
-                    Menu();
-                else if (numRespuesta == 2)
-                    Salir();
-                else
-                {
-                    Console.WriteLine("Opción no válida. Ingrese 1 para SI o 2 para NO.");
-                    Console.ReadKey();
-                    respuesta = Console.ReadLine();
-                }
-            }
-            else
-            {
-                Console.WriteLine("Entrada no válida. Ingrese un número.");
-                respuesta = Console.ReadLine();
-            }
-    }
-
 
     static void Main(string[] args)
     {
