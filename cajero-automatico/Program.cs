@@ -82,18 +82,26 @@
     {
         Console.Clear();
         Console.Write("Ingrese el monto a depositar: ");
-        double monto = Convert.ToDouble(Console.ReadLine());
-        if (monto <= 0)
+        while (true)
         {
-            Console.WriteLine("El monto debe ser mayor a 0. Enter para reintentar... ");
-            Console.ReadKey();
-            Depositar();
-        }
-        else
-        {
-            saldo += monto;
-            Console.WriteLine($"Depósito exitoso. Su nuevo saldo es: ${saldo}");
-            OtraOperacion();
+            string entrada = Console.ReadLine();
+            if (double.TryParse(entrada, out double monto))
+            {
+                if (monto <= 0)
+                {
+                    Console.WriteLine("El monto debe ser mayor a cero.");
+                }
+                else
+                {
+                    saldo += monto;
+                    Console.WriteLine($"Depósito exitoso. Su nuevo saldo es: ${saldo}");
+                    OtraOperacion();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Entrada no válida. Ingrese un número.");
+            }
         }
     }
 
@@ -101,24 +109,32 @@
     {
         Console.Clear();
         Console.Write("Ingrese el monto a retirar: ");
-        double retiro = Convert.ToDouble(Console.ReadLine());
-        if (retiro == 0)
+        while (true)
         {
-            Console.WriteLine("Monto inválido. Ingrese un número distinto de 0. Presione Enter para reintentar...");
-            Console.ReadKey();
-            Retirar();
-        }
-        if (retiro > saldo)
-        {
-            Console.WriteLine("Fondos insuficientes. Presione Enter para reintentar...");
-            Console.ReadKey();
-            Retirar();
-        }
-        else
-        {
-            saldo -= retiro;
-            Console.WriteLine($"Retiro exitoso. Su nuevo saldo es: ${saldo}");
-            OtraOperacion();
+            string entrada = Console.ReadLine();
+            if (double.TryParse(entrada, out double retiro))
+            {
+                if (retiro > saldo)
+                {
+                    Console.WriteLine("Fondos insuficientes.");
+                    OtraOperacion();
+                }
+                else if (retiro <= 0)
+                {
+                    Console.WriteLine("El monto debe ser mayor a cero.");
+                    OtraOperacion();
+                }
+                else
+                {
+                    saldo -= retiro;
+                    Console.WriteLine($"Retiro exitoso. Su nuevo saldo es: ${saldo}");
+                    OtraOperacion();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Entrada no válida. Ingrese un número.");
+            }
         }
     }
     void Salir()
@@ -133,15 +149,27 @@ Gracias por usar el cajero automático. ¡Hasta luego!
     void OtraOperacion()
     {
         Console.WriteLine("\nDesea realizar otra operación? (1=SI / 2=NO)");
-        int respuesta = Convert.ToInt32(Console.ReadLine());
-        if (respuesta == 1)
-        {
-            Menu();
-        }
-        else
-        {
-            Salir();
-        }
+        string respuesta = Console.ReadLine();
+        int numRespuesta;
+        while (true)
+            if (int.TryParse(respuesta, out numRespuesta))
+            {
+                if (numRespuesta == 1)
+                    Menu();
+                else if (numRespuesta == 2)
+                    Salir();
+                else
+                {
+                    Console.WriteLine("Opción no válida. Ingrese 1 para SI o 2 para NO.");
+                    Console.ReadKey();
+                    respuesta = Console.ReadLine();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Entrada no válida. Ingrese un número.");
+                respuesta = Console.ReadLine();
+            }
     }
 
 
